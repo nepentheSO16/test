@@ -13,6 +13,10 @@ double jinzhizhuanhuan(string a,double h,double n){
 		if(a[n-I-1]=='.') {
 			I++;
 		}
+		if(a[n-I-1]=='-'){
+			l=-l;
+			break;
+		}
 		l=l+(double)(a[n-I-1]-'0')*pow(h,i);	
 	}
 	return l;
@@ -20,23 +24,44 @@ double jinzhizhuanhuan(string a,double h,double n){
 double jinzhishibie(string a){
 	double i;
 	int n=a.length();
-	if(a[0]=='0'){
-		if(a[1]=='b'||a[1]=='B'){
-			a[1]='0';
-			i=2;
+	if(a[0]!='-'){
+		if(a[0]=='0'){
+			if(a[1]=='b'||a[1]=='B'){
+				a[1]='0';
+				i=2;
+			}
+			else if(a[1]=='x'||a[1]=='X'){
+				a[1]='0';
+				i=16; 
+			}
+			else {
+				i=8; 
+			}
 		}
-		else if(a[1]=='x'||a[1]=='X'){
-			a[1]='0';
-			i=16; 
+		else{
+			i=10;
 		}
-		else {
-			i=8; 
-		}
-	}
-	else{
-		i=10;
-	}
 	return jinzhizhuanhuan(a,i,n);
+	}
+	else if(a[0]=='-'){
+		if(a[1]=='0'){
+			if(a[2]=='b'||a[2]=='B'){
+				a[2]='0';
+				i=2;
+			}
+			else if(a[2]=='x'||a[2]=='X'){
+				a[2]='0';
+				i=16; 
+			}
+			else {
+				i=8; 
+			}
+		}
+		else if(a[1]!='0'){
+			i=10;
+		}
+		return jinzhizhuanhuan(a,i,n);
+	}
 }
 double sizeyunsuan(){
 	string a;
@@ -179,10 +204,49 @@ void gongyueshugongbeishu(){
 		}
 	}
 }
+void yiyuanyici(){
+	string a;
+	cin>>a;
+	int I,j,J; 
+	for(int i=0;i<a.length();i++){
+		if(a[i]=='*') I=i;
+		else if(a[i]=='-'||a[i]=='+') j=i;
+		else if(a[i]=='=') J=i;
+	}
+	string b,c;
+	b=a.substr(0,I);
+	c=a.substr(j+1,J-j-1);
+	double B,C;
+	B=jinzhishibie(b);
+	C=jinzhishibie(c);
+	if(a[j]=='+') C=-C;
+	cout<<"方程的解为："<<a[I+1]<<"="<<C/B<<endl;
+}
+void fanbili(){
+	string a;
+	cin>>a;
+	int j,J; 
+	for(int i=0;i<a.length();i++){
+		if(a[i]=='/') j=i;
+		else if(a[i]=='=') J=i;
+	}
+	string b,c;
+	b=a.substr(0,j);
+	c=a.substr(J+1,a.length()-J-1);
+	double B,C;
+	B=jinzhishibie(b);
+	C=jinzhishibie(c);
+	cout<<"方程的解为："<<a[j+1]<<"="<<B/C<<endl;
+}
+void yiyuanerci(){
+	string a;
+	cin>>a;
+	
+}
 int main(){
 	cout<<"请选择您想要完成的功能："<<endl;
 	cout<<"四则运算请输入1   十进制对数运算请输入2   幂运算请输入3   三角函数计算请输入4   任意两个进制数字之间比较运算请输入5"<<endl;
-	cout<<"公约数、最小公倍数计算请输入6"<<endl;
+	cout<<"公约数、最小公倍数计算请输入6   一元一次方程求解请输入7   反比例函数求解请输入8"<<endl;
 	int i;
 	cin>>i;
 	switch(i){
@@ -198,5 +262,9 @@ int main(){
 				break;
 		case 6: gongyueshugongbeishu();
 				break;
+		case 7: yiyuanyici();
+				break;
+		case 8: fanbili();
+				break; 
 	}	
 } 
