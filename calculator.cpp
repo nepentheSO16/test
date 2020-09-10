@@ -238,15 +238,91 @@ void fanbili(){
 	C=jinzhishibie(c);
 	cout<<"方程的解为："<<a[j+1]<<"="<<B/C<<endl;
 }
-void yiyuanerci(){
-	string a;
-	cin>>a;
-	
+int yiyuanerci(){
+	string x;
+	cin>>x;
+	double a,b,c;
+	string A="1",B="0",C="0";
+	int I=1,j=0,J=0;
+	for(int i=x.length()-1;i>=0;i--){
+		if((x[i]=='+'||x[i]=='-')&&I==1){
+			j=i;
+			I++;
+		}
+		if((x[i]=='+'||x[i]=='-')&&I==2){
+			J=i;
+		}
+	}
+	for(int i=0;i<x.length();i++){
+		if(x[i]=='*'&&x[i+2]=='^'){
+			A=x.substr(0,i);
+		}
+		else if(x[i]=='*'&&x[i+2]!='^'){
+			B=x.substr(J+1,i-J-1);
+		}
+		else if(x[i]=='='){
+			C=x.substr(j+1,i-j-1);
+		}
+	}
+	a=jinzhishibie(A);
+	if(x[0]=='-') a=-a;
+	b=jinzhishibie(B);
+	if(x[j]=='-') b=-b;
+	c=jinzhishibie(C);
+	if(x[J]=='-') c=-c;
+	double d=b*b-4*a*c;
+	if(d<0){
+		cout<<"该方程无解"<<endl;
+		return 0;
+	} 
+	double x1,x2;
+	x1=(-b-sqrt(d))/(2*a);
+	x2=(-b+sqrt(d))/(2*a);
+	if(x1==x2) cout<<"该方程的解为："<<x1<<endl; 
+	else cout<<"该方程的解为："<<x1<<"和"<<x2<<endl; 
+}
+void zhishu(){
+	string x;
+	cin>>x;
+	string a,b;
+	int I=0;
+	for(int i=0;i<x.length();i++){
+		if(x[i]=='*'){
+			I=i;
+			a=x.substr(0,i);
+			b=x.substr(i+4,x.length()-i-4);	
+			break;
+		}
+	}
+	double A,B;
+	A=jinzhishibie(a);
+	B=jinzhishibie(b);
+	cout<<"该方程的解为："<<x[I+2]<<"="<<log(B)/log(A)<<endl;
+}
+void duishu(){
+	string x;
+	cin>>x;
+	string a,b;
+	int I;
+	for(int i=0;i<x.length();i++){
+		if(x[i]=='='){
+			I=i;
+			a=x.substr(i+1,x.length()-i-1);
+			b=x.substr(3,i-6);
+			break;
+		}
+	}
+	cout<<a<<" "<<b<<endl;
+	double A,B;
+	A=jinzhishibie(a);
+	B=jinzhishibie(b);
+	cout<<"该方程的解为："<<x[I-2]<<"="<<pow(B,A)<<endl;
 }
 int main(){
 	cout<<"请选择您想要完成的功能："<<endl;
 	cout<<"四则运算请输入1   十进制对数运算请输入2   幂运算请输入3   三角函数计算请输入4   任意两个进制数字之间比较运算请输入5"<<endl;
-	cout<<"公约数、最小公倍数计算请输入6   一元一次方程求解请输入7   反比例函数求解请输入8"<<endl;
+	cout<<"公约数、最小公倍数计算请输入6   一元一次方程求解请输入7   反比例函数求解请输入8   一元二次方程求解请输入9"<<endl;
+	cout<<"指数函数求解请输入10   对数函数求解请输入11"<<endl;
 	int i;
 	cin>>i;
 	switch(i){
@@ -266,5 +342,11 @@ int main(){
 				break;
 		case 8: fanbili();
 				break; 
+		case 9: yiyuanerci();
+				break;
+		case 10: zhishu();
+				break;
+		case 11: duishu();
+				break;
 	}	
 } 
